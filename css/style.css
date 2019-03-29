@@ -290,7 +290,7 @@ input, select, textarea{
   input:focus, select:focus {
     border: 1px solid #ff6801; }
 
-label {
+label, span {
   font-size: 14px;
   font-weight: bold;
   font-family: 'Montserrat';

@@ -10,15 +10,27 @@ $carrera=$_POST["scarrera"];
 $materias=$_POST["smaterias"];
 $estatus=$_POST["sestatus"];
 
-echo "Los datos $matricula , $nombre , $correo , $telefono , $grado , $carrera , $materias , $estatus se registraron!"."\n";
+//echo "Los datos $matricula ";
 
 //Se crea un objeto con el constructor de class_registro mandando los datos del formulario como parametros
 $obj=new registro($matricula,$nombre,$correo,$telefono,$grado,$carrera,$materias,$estatus);
 //Se manda ese objeto creado($obj) mandando llamar a la funcion insertar
 $obj2=new registro_dal();
-$resultado2=$obj2-> insertar($obj);
-print($resultado2);
 
+$metodo = $obj2 -> existeMatricula($matricula);
+$metodo2 = $obj2 -> ValidarRegistroEspeciales($matricula);
+
+if ($metodo > 0 && $metodo2 <= 2){
+
+	echo "<script type='text/javascript'>alert('Formulario Aceptado...')</script>";
+	$resultado2=$obj2-> insertar($obj);
+	echo '<script>setTimeout("window.history.go(-1)",1000);</script>';
+
+}
+else{
+	echo "<script type='text/javascript'>alert('No puedes hacer mas de 2 Registros')</script>";
+	echo '<script>setTimeout("window.history.go(-1)",1000)</script>';
+}
 
 
 /*//trae un campo por matricula

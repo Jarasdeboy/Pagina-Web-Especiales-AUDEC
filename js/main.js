@@ -60,7 +60,11 @@ function valida_alumno(){
 		return false;
 	}
 
-	alert("Formualario Autorizado. :)");
+	if (ValidaMatricula(js_mat) == false){
+		alert("Error: No existe esa Matricula")
+		return false;
+	}
+
 	return true;
 
 }
@@ -97,21 +101,4 @@ function soloLetras(e){
             return false;
         }
     }
-
-  function ValidaMatricula(){
-  	var mat = $('#imatricula').val();
-    // var descripcionCurso = $('#id_desc').val();
-
-    var datos = {
-        "mat" : mat,
-        // "descripcion" : descripcionCurso
-    }
-
-
-
-    $.get( "../ValidarMatricula.php", datos )
-    .done(function( resultado ) {
-        console.log(resultado);
-    });
-  }
 

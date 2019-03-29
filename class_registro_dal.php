@@ -48,22 +48,37 @@ class registro_dal extends class_Db{
     function existeMatricula($Matricula){
      $Matricula=$this->db_conn->real_escape_string($Matricula);
 
-       $sql = "select count(*) from Alumnos";
+       $sql = "select count(*) as counter from Alumnos";
        $sql .= " where Matricula='$Matricula'";
 
        //print $sql;
        $this->set_sql($sql);
        $rs = mysqli_query($this->db_conn,$this->db_query) or die(mysqli_error($this->db_conn));
        //$total_de_registro = mysqli_num_rows($rs);
-       $renglon= mysqli_fetch_array($rs);
-       $cuantos= $renglon[0];
+       $renglon= mysqli_fetch_assoc($rs);
 
-       return $cuantos;
+       return $renglon['counter'];
      }
+    function ValidarRegistroEspeciales($Matricula){
+      $Matricula=$this->db_conn->real_escape_string($Matricula);
+
+       $sql = "select count(*) as counter from especiales";
+       $sql .= " where Matricula='$Matricula'";
+
+       //print $sql;
+       $this->set_sql($sql);
+       $rs = mysqli_query($this->db_conn,$this->db_query) or die(mysqli_error($this->db_conn));
+       //$total_de_registro = mysqli_num_rows($rs);
+       $renglon= mysqli_fetch_assoc($rs);
+
+       return $renglon['counter'];
+     }
+
+
 
 function get_datos_lista_materias(){
 
-  $elsql = "select * from materias";
+  $elsql = "select cve_plan, materia from alumnos GROUP BY materia;";
 
   //print $elsql;exit;
 
@@ -95,8 +110,16 @@ function get_datos_lista_materias(){
 
 function get_datos_lista_carreras(){
 
-  $elsql = "select cve_plan as Id_carrera,if (cve_plan=670,concat(cve_plan,'-Inge sistemas'),if (cve_plan=686),concat(cve_plan,'-Inge sistemas'),'hola'), if (cve_plan=689)) as nombre_carrera from alumnos
-  group by cve_plan ";
+  $elsql = "select cve_plan NOT IN(742) as Id_carrera,
+if (cve_plan=670,concat(cve_plan,'-Ingeniero En Sistemas(Antiguo)'),
+if (cve_plan=686,concat(cve_plan,'-Ingeniero Industrial(Antiguo)'),
+if (cve_plan=689,concat(cve_plan,'-Licenciado de Sistemas Computacionales Administrativos'),
+if (cve_plan=754,concat(cve_plan,'-Ingeniero en Tecnologias de la Informacion y Comunicaciones'),
+if (cve_plan=820,concat(cve_plan,'-Ingeniero Industrial y de Sistemas'),
+if (cve_plan=827,concat(cve_plan,'-Ingeniero en Electronica y Comunicaciones'),
+if (cve_plan=828,concat(cve_plan,'-Ingeniero en Sistemas Computacionales'),
+if (cve_plan=851,concat(cve_plan,'-Ingeniero Automotriz'),'')))))))) as nombre_carrera from alumnos
+  group by cve_plan";
 
   //print $elsql;exit;
 
@@ -140,7 +163,7 @@ function get_datos_lista_carreras(){
 
         if(mysqli_affected_rows($this->db_conn)==1) {
 			$insertado=1;
-			print "insertado"."\n";
+			//print "insertado"."\n";
 		}else{
 			$insertado=0;
 		}

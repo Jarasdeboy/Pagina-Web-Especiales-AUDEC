@@ -32,7 +32,7 @@ $crr = $ml_crr->get_datos_lista_carreras();
                         <h1>Examenes Especiales</h1>
                         <div class="form-group">
                             <label  id = "lblmat" for="matricula">Matricula :</label>
-                            <input type="text" maxlength="8" onblur="ValidaMatricula();"  onkeypress="validar_mtr(event);" name="imatricula" id="imatricula" placeholder="Ingresa tu Matricula" />
+                            <input type="text" maxlength="8" onkeypress="validar_mtr(event);" name="imatricula" id="imatricula" placeholder="Ingresa tu Matricula" />
                         </div>
                         <div class="form-group">
                             <label for="nombre">Nombre :</label>
@@ -70,8 +70,8 @@ $crr = $ml_crr->get_datos_lista_carreras();
                                 <div class="form-select">
                                     <select name="scarrera" id="icarrera">
                                         <option value="0" disabled selected>Ingresa tu Carrera: </option>
-                                        <  foreach ($crr as $key => $value) {
-                                            ?php 
+                                        <?php   
+                                            foreach ($crr as $key => $value) {
                                               ?>
                                                 <option value="<?php echo $value[0] ?>"><?php echo $value[1]  ?></option>
                                                 <?php  }  ?>
